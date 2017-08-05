@@ -30,6 +30,6 @@ To add a title you simply type `**<Title>**`, to add a footer you type `--<Foote
 
 An example message might look like this: 
 
-`/embed **This is the title** This is a test of the SelfBot --This is the footer--`
+`/embed ++#FFFFFF++ **This is the title** This is a test of the SelfBot --This is the footer--`
 
 ![Embedded Message](http://image.prntscr.com/image/673b1abeaee94bdaa108375c8935ecc4.png)

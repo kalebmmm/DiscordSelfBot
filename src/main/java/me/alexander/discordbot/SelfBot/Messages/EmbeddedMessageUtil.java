@@ -69,11 +69,6 @@ public class EmbeddedMessageUtil {
 		emb.addField("Avatar", user.getAvatarUrl().toString(), true);
 		emb.addField("Status", user.getStatus().name(), true);
 
-		emb.setFooter(
-				m.getAuthor().getName() + "'s Bot | Message sent "
-						+ new SimpleDateFormat("MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()),
-				"https://avatars1.githubusercontent.com/u/6422482?v=3&s=400");
-
 		emb.setTitle("Profile of " + user.getName() + ":");
 		emb.setColor(Color.red);
 		emb.setThumbnail(user.getAvatarUrl().toString());
@@ -87,7 +82,7 @@ public class EmbeddedMessageUtil {
 	 * @param message
 	 * @param bot
 	 */
-	public static Future<Message> embed(final Message message, final SelfBot bot) {
+	public static Future<Message> embed(final Message message, final Color color, final SelfBot bot) {
 		if (message.getContent().startsWith("/user")) {
 			return EmbeddedMessageUtil.userInfo(message, bot);
 		}
@@ -115,13 +110,6 @@ public class EmbeddedMessageUtil {
 	public static EmbedBuilder generateEmbed(String msg, final SelfBot bot) {
 		try {
 			final EmbedBuilder emb = new EmbedBuilder();
-			emb.setColor(new Color(EmbeddedMessageUtil.rand.nextFloat(), EmbeddedMessageUtil.rand.nextFloat(),
-					EmbeddedMessageUtil.rand.nextFloat()).brighter());
-
-			emb.setFooter(
-					bot.getAPI().getYourself().getName() + "'s Bot | Message sent "
-							+ new SimpleDateFormat("MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()),
-					"https://avatars1.githubusercontent.com/u/6422482?v=3&s=400");
 
 			for (final String url : extractUrls(msg)) {
 				if (url.endsWith(".png") || url.endsWith(".jpeg") || url.endsWith(".jpg")) {
@@ -129,6 +117,15 @@ public class EmbeddedMessageUtil {
 					msg = msg.replace(url, "");
 					break;
 				}
+			}
+
+			if (msg.contains("++")) {
+				final String rgb = msg.split("\\+\\+")[1].split("\\+\\+")[0];
+				msg = msg.replace("++" + rgb + "++", "");
+				emb.setColor(new Color(
+						Integer.valueOf( rgb.substring( 1, 3 ), 16 ),
+						Integer.valueOf( rgb.substring( 3, 5 ), 16 ),
+						Integer.valueOf( rgb.substring( 5, 7 ), 16 )));
 			}
 
 			if (msg.contains("**")) {

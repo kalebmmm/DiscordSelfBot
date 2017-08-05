@@ -70,9 +70,16 @@ public class ICommandSelfBot {
 			message.reply("", emb);
 			break;
 		case "/user":
-		case "/embed":
-			message.delete();
-			EmbeddedMessageUtil.embed(message, bot);
+			case "/embed":
+				Color color = Color.CYAN;
+
+				try {
+					color = Color.getColor(args.split(" ")[0].toUpperCase());
+				} catch (Exception e) { }
+
+
+				message.delete();
+				EmbeddedMessageUtil.embed(message, color, bot);
 			break;
 		}
 	}
